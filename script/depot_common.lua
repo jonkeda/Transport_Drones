@@ -1,4 +1,6 @@
 local transport_drone = require("script/transport_drone")
+local delivery_drone = require("script/delivery_drone")
+
 local road_network = require("script/road_network")
 local transport_technologies = require("script/transport_technologies")
 
@@ -36,6 +38,10 @@ add_depot_lib("mining-depot", require("script/depots/mining_depot"))
 add_depot_lib("fluid-depot", require("script/depots/fluid_depot"))
 add_depot_lib("buffer-depot", require("script/depots/buffer_depot"))
 add_depot_lib("road-network-reader", require("script/depots/network_reader"))
+
+add_depot_lib("garage-depot", require("script/depots/garage_depot"))
+add_depot_lib("demand-depot", require("script/depots/demand_depot"))
+
 
 local match = "transport_drones_add_"
 for name, setting in pairs (settings.startup) do
@@ -406,6 +412,7 @@ local setup_lib_values = function()
   for k, lib in pairs (depot_libs) do
     lib.road_network = road_network
     lib.transport_drone = transport_drone
+    lib.delivery_drone = delivery_drone
     lib.transport_technologies = transport_technologies
     lib.get_depot = get_depot_by_index
   end

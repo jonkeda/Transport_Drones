@@ -8,7 +8,7 @@
       "type": "factoriomod",
       "request": "launch",
       "name": "Factorio Mod Debug",
-      "factorioPath": "C:/factorio/bin/Releasex64vs2017/factorio-run.exe"
+      "factorioPath": "C:/Program Files (x86)/Steam/steamapps/common/Factorio/bin/x64/factorio.exe"
 
 
     }

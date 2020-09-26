@@ -37,6 +37,14 @@ local transport_system =
     },
     {
       type = "unlock-recipe",
+      recipe = "garage-depot"
+    },
+    {
+      type = "unlock-recipe",
+      recipe = "demand-depot"
+    },
+    {
+      type = "unlock-recipe",
       recipe = "road"
     }
   },

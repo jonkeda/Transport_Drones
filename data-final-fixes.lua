@@ -13,6 +13,7 @@ data.raw.item.road.place_as_tile =
 local util = require "__Transport_Drones__/data/tf_util/tf_util"
 require("data/entities/transport_drone/transport_drone")
 require("data/make_request_recipes")
+require("data/make_garage_recipes")
 
 -- ruin rails
 
