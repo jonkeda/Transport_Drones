@@ -125,6 +125,7 @@ demand_depot.icon_size = 64
 demand_depot.icon_mipmaps = 4
 demand_depot.collision_box = {{-0.35, -0.35}, {0.35, 0.35}}
 demand_depot.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+demand_depot.drawing_box = {{-0.5, -0.5}, {0.5, 0.5}}
 demand_depot.minable = {result = "demand-depot", mining_time = 1}
 demand_depot.placeable_by = {item = "demand-depot", count = 1}
 table.insert(demand_depot.flags, "not-deconstructable")
@@ -248,6 +249,7 @@ supply_small_depot.icon_size = 64
 supply_small_depot.icon_mipmaps = 4
 supply_small_depot.collision_box = {{-0.35, -0.35}, {0.35, 0.35}}
 supply_small_depot.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+supply_small_depot.drawing_box = {{-0.5, -0.5}, {0.5, 0.5}}
 supply_small_depot.minable = {result = "supply-small-depot", mining_time = 1}
 supply_small_depot.placeable_by = {item = "supply-small-depot", count = 1}
 table.insert(supply_small_depot.flags, "not-deconstructable")
@@ -359,7 +361,7 @@ local supply_small_depot_chest =
   max_health = 150,
   collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
   selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-  collision_box = collision_box,
+  drawing_box = {{-0.5, -0.5}, {0.5, 0.5}},
   collision_mask = {},
   selection_priority = 100,
   fast_replaceable_group = "container",

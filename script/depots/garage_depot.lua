@@ -144,7 +144,7 @@ function garage_depot:get_demand_depot()
     if demand_depot.entity.valid then
       for i = 1, demand_depot.entity.request_slot_count do
         local slot = demand_depot.entity.get_request_slot(i)
-        if slot and slot.name and slot.count >0 then
+        if slot and slot.name and slot.count > 0 then
           local demand_count = demand_depot:get_available_item_count(slot.name)
           if demand_count / slot.count < 0.5 then
 

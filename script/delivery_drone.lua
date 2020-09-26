@@ -325,7 +325,7 @@ function delivery_drone:process_pickup()
 
     local given_count = self.supply_depot:give_item(self.requested_item, to_take)
 
-    self.supply_depot:add_to_be_taken(self.requested_item, -given_count)
+    self.supply_depot:add_to_be_taken(self.requested_item, -self.requested_count)
 
     if given_count > 0 then
       self.held_item = self.requested_item
@@ -356,7 +356,7 @@ function delivery_drone:process_delivery()
 
   if given_count > 0 then
     self.held_item = self.requested_item
-    self.held_count = self.held_count - given_count
+    self.held_count = (self.held_count or 0) - given_count
     self.demand_depot:add_to_be_delivered(self.requested_item, -self.requested_count)
     if self.held_count == 0 then
       self.held_item = nil
