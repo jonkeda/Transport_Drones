@@ -10,17 +10,39 @@ supply_depot.corpse_offsets =
   [6] = {-2, 0},
 }
 
+supply_depot.corpse_small_offsets =
+{
+  [0] = {0, -1},
+  [2] = {1, 0},
+  [4] = {0, 1},
+  [6] = {-1, 0},
+}
+
 function supply_depot.new(entity)
+
+  local smalldepot = entity.name == "supply-small-depot"
+
   local position = entity.position
   local direction = entity.direction
   local force = entity.force
   local surface = entity.surface
-  local offset = supply_depot.corpse_offsets[direction]
+  local offset
+  if smalldepot then
+    offset = supply_depot.corpse_small_offsets[direction]
+  else
+    offset = supply_depot.corpse_offsets[direction]
+  end
   entity.destructible = false
   entity.minable = false
   entity.rotatable = false
   entity.active = false
-  local chest = surface.create_entity{name = "supply-depot-chest", position = position, force = force, player = entity.last_user}
+  local chest
+  if smalldepot then
+    chest = surface.create_entity{name = "supply-small-depot-chest", position = position, force = force, player = entity.last_user}
+  else
+    chest = surface.create_entity{name = "supply-depot-chest", position = position, force = force, player = entity.last_user}
+  end
+
   local corpse_position = {position.x + offset[1], position.y + offset[2]}
   local corpse = surface.create_entity{name = "transport-caution-corpse", position = corpse_position}
   corpse.corpse_expires = false

@@ -66,8 +66,8 @@ garage_depot.fluid_boxes =
 }
 garage_depot.crafting_categories = {"transport-drone-garage"}
 garage_depot.crafting_speed = (1)
+garage_depot.fixed_recipe = "garage_item_recipe"
 garage_depot.ingredient_count = nil
---garage_depot.collision_mask = {"item-layer", "object-layer", "water-tile", "player-layer", "resource-layer"}
 garage_depot.se_allow_in_space = true
 garage_depot.allowed_effects = {}
 garage_depot.module_specification = nil
@@ -117,20 +117,116 @@ garage_depot.animation =
   },
 }
 
-local demand_depot = util.copy(data.raw["logistic-container"]["logistic-chest-requester"])
+local demand_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
 demand_depot.name = "demand-depot"
 demand_depot.localised_name = {"demand-depot"}
-
 demand_depot.icon = "__base__/graphics/icons/logistic-chest-requester.png"
 demand_depot.icon_size = 64
 demand_depot.icon_mipmaps = 4
-
+demand_depot.collision_box = {{-0.35, -0.35}, {0.35, 0.35}}
+demand_depot.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
 demand_depot.minable = {result = "demand-depot", mining_time = 1}
 demand_depot.placeable_by = {item = "demand-depot", count = 1}
-demand_depot.logistic_mode = "requester"
-demand_depot.logistic_slots_count = 5
-demand_depot.render_not_in_network_icon = false
 table.insert(demand_depot.flags, "not-deconstructable")
+demand_depot.fluid_boxes =
+{
+  {
+    production_type = "input",
+    base_area = 50,
+    base_level = -1,
+    pipe_connections = {{ type="input", position = {0, -1} }},
+  },
+  off_when_no_fluid_recipe = false
+}
+local demand_small_base = function(shift)
+  return
+  {
+    filename = "__base__/graphics/entity/logistic-chest/logistic-chest-requester.png",
+    priority = "extra-high",
+    width = 34,
+    height = 38,
+    frame_count = 7,
+    shift = util.by_pixel(0, -2),
+    hr_version =
+    {
+      filename = "__base__/graphics/entity/logistic-chest/hr-logistic-chest-requester.png",
+      priority = "extra-high",
+      width = 66,
+      height = 74,
+      frame_count = 7,
+      shift = util.by_pixel(0, -2),
+      scale = 0.5
+    }
+  },
+  {
+    filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
+    priority = "extra-high",
+    width = 56,
+    height = 24,
+    repeat_count = 7,
+    shift = util.by_pixel(12, 5),
+    draw_as_shadow = true,
+    hr_version =
+    {
+      filename = "__base__/graphics/entity/logistic-chest/hr-logistic-chest-shadow.png",
+      priority = "extra-high",
+      width = 112,
+      height = 46,
+      repeat_count = 7,
+      shift = util.by_pixel(12, 4.5),
+      draw_as_shadow = true,
+      scale = 0.5
+    }
+  }
+end
+demand_depot.animation =
+{
+  north =
+  {
+    layers =
+    {
+      demand_small_base{0, 0.4},
+    }
+  },
+  south =
+  {
+    layers =
+    {
+      demand_small_base{0, 0.4},
+    }
+  },
+  east =
+  {
+    layers =
+    {
+      demand_small_base{0, 0.4},
+    }
+  },
+  west =
+  {
+    layers =
+    {
+      demand_small_base{0, 0.4},
+    }
+  },
+}
+
+local demand_depot_chest = util.copy(data.raw["logistic-container"]["logistic-chest-requester"])
+demand_depot_chest.name = "demand-depot-chest"
+demand_depot_chest.localised_name = {"demand-depot"}
+
+demand_depot_chest.icon = "__base__/graphics/icons/logistic-chest-requester.png"
+demand_depot_chest.icon_size = 64
+demand_depot_chest.icon_mipmaps = 4
+
+demand_depot_chest.minable = {result = "demand-depot", mining_time = 1}
+demand_depot_chest.placeable_by = {item = "demand-depot", count = 1}
+demand_depot_chest.logistic_mode = "requester"
+demand_depot_chest.logistic_slots_count = 5
+demand_depot_chest.render_not_in_network_icon = false
+demand_depot_chest.inventory_size = 10
+
+table.insert(demand_depot_chest.flags, "not-deconstructable")
 
 local demand_base = function(shift)
   return
@@ -144,6 +240,101 @@ local demand_base = function(shift)
   }
 end
 
+local supply_small_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
+supply_small_depot.name = "supply-small-depot"
+supply_small_depot.localised_name = {"supply-small-depot"}
+supply_small_depot.icon = "__base__/graphics/icons/logistic-chest-passive-provider.png"
+supply_small_depot.icon_size = 64
+supply_small_depot.icon_mipmaps = 4
+supply_small_depot.collision_box = {{-0.35, -0.35}, {0.35, 0.35}}
+supply_small_depot.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+supply_small_depot.minable = {result = "supply-small-depot", mining_time = 1}
+supply_small_depot.placeable_by = {item = "supply-small-depot", count = 1}
+table.insert(supply_small_depot.flags, "not-deconstructable")
+supply_small_depot.fluid_boxes =
+{
+  {
+    production_type = "input",
+    base_area = 50,
+    base_level = -1,
+    pipe_connections = {{ type="input", position = {0, -1} }},
+  },
+  off_when_no_fluid_recipe = false
+}
+local supply_small_base = function(shift)
+  return
+  {
+    filename = "__base__/graphics/entity/logistic-chest/logistic-chest-passive-provider.png",
+    priority = "extra-high",
+    width = 34,
+    height = 38,
+    frame_count = 7,
+    shift = util.by_pixel(0, -2),
+    hr_version =
+    {
+      filename = "__base__/graphics/entity/logistic-chest/hr-logistic-chest-passive-provider.png",
+      priority = "extra-high",
+      width = 66,
+      height = 74,
+      frame_count = 7,
+      shift = util.by_pixel(0, -2),
+      scale = 0.5
+    }
+  },
+  {
+    filename = "__base__/graphics/entity/logistic-chest/logistic-chest-shadow.png",
+    priority = "extra-high",
+    width = 56,
+    height = 24,
+    repeat_count = 7,
+    shift = util.by_pixel(12, 5),
+    draw_as_shadow = true,
+    hr_version =
+    {
+      filename = "__base__/graphics/entity/logistic-chest/hr-logistic-chest-shadow.png",
+      priority = "extra-high",
+      width = 112,
+      height = 46,
+      repeat_count = 7,
+      shift = util.by_pixel(12, 4.5),
+      draw_as_shadow = true,
+      scale = 0.5
+    }
+  }
+end
+supply_small_depot.animation =
+{
+  north =
+  {
+    layers =
+    {
+      supply_small_base{0, 0.4},
+    }
+  },
+  south =
+  {
+    layers =
+    {
+      supply_small_base{0, 0.4},
+    }
+  },
+  east =
+  {
+    layers =
+    {
+      supply_small_base{0, 0.4},
+    }
+  },
+  west =
+  {
+    layers =
+    {
+      supply_small_base{0, 0.4},
+    }
+  },
+}
+
+
 local caution_corpse =
 {
   type = "corpse",
@@ -152,6 +343,45 @@ local caution_corpse =
   animation = caution_sprite,
   remove_on_entity_placement = false,
   remove_on_tile_placement = false
+}
+
+local supply_small_depot_chest =
+{
+  type = "container",
+  name = "supply-small-depot-chest",
+  localised_name = {"supply-small-depot"},
+  icon = util.path("data/entities/transport_depot/supply-depot-icon.png"),
+  icon_size = 216,
+  dying_explosion = garage_depot.dying_explosion,
+  damaged_trigger_effect = garage_depot.damaged_trigger_effect,
+  corpse = garage_depot.corpse,
+  flags = {"placeable-neutral", "player-creation", "not-blueprintable"},
+  max_health = 150,
+  collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
+  selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+  collision_box = collision_box,
+  collision_mask = {},
+  selection_priority = 100,
+  fast_replaceable_group = "container",
+  scale_info_icons = false,
+  inventory_size = 10,
+  open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.5 },
+  close_sound = { filename = "__base__/sound/metallic-chest-close.ogg", volume = 0.5 },
+  picture =
+  {
+    layers =
+    {
+      supply_small_base{0,0}
+    }
+  },
+  picture = util.empty_sprite(),
+  order = "nil",
+  minable = {result = "supply-small-depot", mining_time = 1},
+  placeable_by = {item = "supply-small-depot", count = 1},
+  circuit_wire_max_distance = 10,
+  circuit_wire_connection_point = circuit_connector_definitions["roboport"].points,
+  circuit_connector_sprites = circuit_connector_definitions["roboport"].sprites,
+
 }
 
 local category =
@@ -166,8 +396,8 @@ local items =
     type = "item",
     name = "demand-depot",
     localised_name = {"demand-depot"},
-    icon = demand_depot.icon,
-    icon_size = demand_depot.icon_size,
+    icon = demand_depot_chest.icon,
+    icon_size = demand_depot_chest.icon_size,
     flags = {},
     subgroup = "transport-drones",
     order = "e-a-a",
@@ -178,8 +408,8 @@ local items =
     type = "recipe",
     name = "demand-depot",
     localised_name = {"demand-depot"},
-    icon = demand_depot.icon,
-    icon_size = demand_depot.icon_size,
+    icon = demand_depot_chest.icon,
+    icon_size = demand_depot_chest.icon_size,
     --category = "transport",
     enabled = false,
     ingredients =
@@ -219,7 +449,37 @@ local items =
     },
     energy_required = 5,
     result = "garage-depot"
-  }
+  },
+
+  {
+    type = "item",
+    name = "supply-small-depot",
+    localised_name = {"supply-small-depot"},
+    icon = supply_small_depot.icon,
+    icon_size = supply_small_depot.icon_size,
+    flags = {},
+    subgroup = "transport-drones",
+    order = "e-a-a",
+    stack_size = 10,
+    place_result = "supply-small-depot"
+  },
+  {
+    type = "recipe",
+    name = "supply-small-depot",
+    localised_name = {"supply-small-depot"},
+    icon = supply_small_depot.icon,
+    icon_size = supply_small_depot.icon_size,
+    --category = "transport",
+    enabled = false,
+    ingredients =
+    {
+      {"iron-plate", 50},
+      {"iron-gear-wheel", 10},
+      {"iron-stick", 20},
+    },
+    energy_required = 5,
+    result = "supply-small-depot"
+  },
 }
 
 data:extend(items)
@@ -229,6 +489,9 @@ data:extend
   category,
   garage_depot,
   demand_depot,
+  demand_depot_chest,
+  supply_small_depot,
+  supply_small_depot_chest,
   caution_corpse,
   invisble_corpse
 }

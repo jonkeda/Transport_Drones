@@ -141,26 +141,27 @@ function garage_depot:get_demand_depot()
 
   for k = 1, #demand_depots do
     local demand_depot = demand_depots[k]
-   
-    for i = 1, demand_depot.entity.request_slot_count do
-      local slot = demand_depot.entity.get_request_slot(i)
-      if slot and slot.name and slot.count >0 then
-        local demand_count = demand_depot:get_available_item_count(slot.name)
-        if demand_count / slot.count < 0.5 then
+    if demand_depot.entity.valid then
+      for i = 1, demand_depot.entity.request_slot_count do
+        local slot = demand_depot.entity.get_request_slot(i)
+        if slot and slot.name and slot.count >0 then
+          local demand_count = demand_depot:get_available_item_count(slot.name)
+          if demand_count / slot.count < 0.5 then
 
-          for s = 1, #supply_depots do
-            local supply_depot = supply_depots[s]
-
-            local supply_count = supply_depot:get_available_item_count(slot.name)
-            -- todo largest amount or heuristic
-            if supply_count > 0 then
-              return demand_depot, slot, supply_depot
-            end  
+            for s = 1, #supply_depots do
+              local supply_depot = supply_depots[s]
+              if supply_depot.entity.valid then
+                local supply_count = supply_depot:get_available_item_count(slot.name)
+                -- todo largest amount or heuristic
+                if supply_count > 0 then
+                  return demand_depot, slot, supply_depot
+                end  
+              end
+            end
           end
         end
       end
     end
-
 
   end
 
@@ -168,12 +169,13 @@ end
 
 function garage_depot:make_request()
 
-  if not self:can_spawn_drone() then return end
+  while self:can_spawn_drone() do
 
-  local demand_depot, slot, supply_depot = self:get_demand_depot()
-  if not demand_depot then return end
-  
-  self:dispatch_drone(supply_depot, demand_depot, slot.count, slot.name)
+    local demand_depot, slot, supply_depot = self:get_demand_depot()
+    if not demand_depot then return end
+    
+    self:dispatch_drone(supply_depot, demand_depot, slot.count, slot.name)
+  end
 
 end
 

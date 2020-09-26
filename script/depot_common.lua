@@ -41,6 +41,9 @@ add_depot_lib("road-network-reader", require("script/depots/network_reader"))
 
 add_depot_lib("garage-depot", require("script/depots/garage_depot"))
 add_depot_lib("demand-depot", require("script/depots/demand_depot"))
+add_depot_lib("demand-depot-chest", require("script/depots/demand_depot"))
+add_depot_lib("supply-small-depot", require("script/depots/supply_depot"))
+add_depot_lib("supply-small-depot-chest", require("script/depots/supply_depot"))
 
 
 local match = "transport_drones_add_"
@@ -333,7 +336,7 @@ end
 
 local load_depot = function(depot)
   local lib = get_lib(depot)
-  if lib.metatable then
+  if lib and lib.metatable then
     setmetatable(depot, lib.metatable)
   end
 end

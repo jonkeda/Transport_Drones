@@ -16,23 +16,23 @@ function demand_depot.new(entity)
   local force = entity.force
   local surface = entity.surface
   local offset = demand_depot.corpse_offsets[direction]
-  entity.destructible = true
-  entity.minable = true
+  entity.destructible = false
+  entity.minable = false
   entity.rotatable = false
   entity.active = false
-  --local chest = surface.create_entity{name = "supply-depot-chest", position = position, force = force, player = entity.last_user}
+  local chest = surface.create_entity{name = "demand-depot-chest", position = position, force = force, player = entity.last_user}
   local corpse_position = {position.x + offset[1], position.y + offset[2]}
   local corpse = surface.create_entity{name = "transport-caution-corpse", position = corpse_position}
   corpse.corpse_expires = false
 
   local depot =
   {
-    entity = entity,
-    --assembler = entity,
+    entity = chest,
+    assembler = entity,
     corpse = corpse,
     to_be_delivered = {},
     node_position = {math.floor(corpse_position[1]), math.floor(corpse_position[2])},
-    index = tostring(entity.unit_number),
+    index = tostring(chest.unit_number),
     old_contents = {}
   }
   setmetatable(depot, demand_depot.metatable)
@@ -132,10 +132,18 @@ end
 function demand_depot:on_removed(event)
 
   self.corpse.destroy()
-
+  if self.assembler then
+    self.assembler.destructible = true
+  end
   if event.name == defines.events.on_entity_died then
     self.entity.destroy()
+    if self.assembler then
+      self.assembler.die()
+    end
   else
+    if self.assembler then
+      self.assembler.destroy()
+    end
   end
 end
 
