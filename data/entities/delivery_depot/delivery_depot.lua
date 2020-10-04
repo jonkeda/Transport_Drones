@@ -18,6 +18,16 @@ local caution_sprite =
   flags = {"terrain"}
 }
 
+local caution_corpse =
+{
+  type = "corpse",
+  name = "transport-caution-corpse",
+  flags = {"placeable-off-grid"},
+  animation = caution_sprite,
+  remove_on_entity_placement = false,
+  remove_on_tile_placement = false
+}
+
 local garage_base = function(shift)
   return
   {
@@ -122,7 +132,7 @@ function drone_depot_picture(tint)
     layers =
     {
       {
-        filename = util.path("data/entities/delivery_depot/logistic-chest/brass-chest.png"),
+        filename = util.path("data/entities/delivery_depot/brass-chest.png"),
         width = 38,
         height = 32,
         frame_count = 1,
@@ -130,7 +140,7 @@ function drone_depot_picture(tint)
         shift = {0.09375, 0}
       },
       {
-        filename = util.path("data/entities/delivery_depot/logistic-chest/logistic-chest-mask.png"),
+        filename = util.path("data/entities/delivery_depot/logistic-chest-mask.png"),
         width = 32,
         height = 32,
         frame_count = 1,
@@ -145,15 +155,72 @@ function drone_depot_picture(tint)
 function drone_depot_icon(tint)
   return {
     {
-      icon = util.path("data/entities/delivery_depot/logistic-chest/icons/brass-chest.png"),
+      icon = util.path("data/entities/delivery_depot/brass-chest.png"),
     },
     {
-      icon = util.path("data/entities/delivery_depot/logistic-chest/logistic-chest-mask.png"),
+      icon = util.path("data/entities/delivery_depot/logistic-chest-mask.png"),
       tint = tint
     }
   };
 end
   
+function robot_depot_picture(tint)
+  return {
+    layers =
+    {
+      {
+        filename = util.path("data/entities/delivery_depot/titanium-chest.png"),
+        width = 38,
+        height = 32,
+        frame_count = 1,
+        repeat_count = 16,
+        shift = {0.09375, 0}
+      },    
+      {
+        filename = util.path("data/entities/delivery_depot/logistic-chest-port-back.png"),
+        width = 10,
+        height = 8,
+        frame_count = 1,
+        repeat_count = 16,
+        shift = util.by_pixel(0, -10)
+      },
+      {
+        filename = util.path("data/entities/delivery_depot/roboport-door-2.png"),
+        priority = "medium",
+        width = 52,
+        height = 39,
+        frame_count = 16,
+        scale = 0.25,
+        shift = util.by_pixel(0, -10)
+      },
+  
+      {
+        filename = util.path("data/entities/delivery_depot/logistic-chest-mask.png"),
+        width = 32,
+        height = 32,
+        frame_count = 1,
+        repeat_count = 16,
+        tint = tint,
+        shift = {0, 0}
+      }
+    }
+  }
+  end
+
+function robot_depot_icon(tint)
+  return {
+    {
+      icon = util.path("data/entities/delivery_depot/titanium-chest.png"),
+    },
+    {
+      icon = util.path("data/entities/delivery_depot/logistic-chest/icons/logistic-chest-port.png"),
+    },
+    {
+      icon = util.path("data/entities/delivery_depot/logistic-chest-mask.png"),
+      tint = tint
+    }
+  };
+end
   
 local demand_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
 demand_depot.name = "demand-depot"
@@ -226,17 +293,6 @@ supply_small_depot.fluid_boxes =
 }
 supply_small_depot.animation = drone_depot_picture({r = 0.9, g = 0.2, b = 0.1, a = 1});
 
-
-local caution_corpse =
-{
-  type = "corpse",
-  name = "transport-caution-corpse",
-  flags = {"placeable-off-grid"},
-  animation = caution_sprite,
-  remove_on_entity_placement = false,
-  remove_on_tile_placement = false
-}
-
 local supply_small_depot_chest =
 {
   type = "container",
@@ -259,7 +315,7 @@ local supply_small_depot_chest =
   inventory_size = 10,
   open_sound = { filename = "__base__/sound/metallic-chest-open.ogg", volume=0.5 },
   close_sound = { filename = "__base__/sound/metallic-chest-close.ogg", volume = 0.5 },
-  animation = drone_depot_picture({r = 0.9, g = 0.2, b = 0.1, a = 1}),
+  animation = robot_depot_picture({r = 0.9, g = 0.2, b = 0.1, a = 1}),
   picture = util.empty_sprite(),
   order = "nil",
   minable = {result = "supply-small-depot", mining_time = 1},
@@ -269,6 +325,41 @@ local supply_small_depot_chest =
   circuit_connector_sprites = circuit_connector_definitions["roboport"].sprites,
 
 }
+
+local supply_provider_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
+supply_provider_depot.name = "supply-provider-depot"
+supply_provider_depot.localised_name = {"supply-provider-depot"}
+
+supply_provider_depot.icons = robot_depot_icon({r = 0.9, g = 0.2, b = 0.1, a = 1}); 
+supply_provider_depot.icon_size = 32;
+
+supply_provider_depot.icon_mipmaps = 4
+supply_provider_depot.collision_box = {{-0.35, -0.35}, {0.35, 0.35}}
+supply_provider_depot.selection_box = {{-0.5, -0.5}, {0.5, 0.5}}
+supply_provider_depot.drawing_box = {{-0.5, -0.5}, {0.5, 0.5}}
+supply_provider_depot.minable = {result = "supply-provider-depot", mining_time = 1}
+supply_provider_depot.placeable_by = {item = "supply-provider-depot", count = 1}
+table.insert(supply_provider_depot.flags, "not-deconstructable")
+supply_provider_depot.fluid_boxes =
+{
+  {
+    production_type = "input",
+    base_area = 50,
+    base_level = -1,
+    pipe_connections = {{ type="input", position = {0, -1} }},
+  },
+  off_when_no_fluid_recipe = false
+}
+supply_provider_depot.animation = drone_depot_picture({r = 0.9, g = 0.2, b = 0.1, a = 1});
+
+local supply_provider_depot_chest = util.copy(data.raw["logistic-container"]["logistic-chest-passive-provider"])
+
+supply_provider_depot_chest.name = "supply-provider-depot-chest";
+supply_provider_depot_chest.localised_name = {"supply-provider-depot"};
+supply_provider_depot_chest.icon = util.path("data/entities/transport_depot/supply-depot-icon.png");
+supply_provider_depot_chest.icon_size = 216;
+supply_provider_depot_chest.minable = {result = "supply-provider-depot", mining_time = 1};
+supply_provider_depot_chest.placeable_by = {item = "supply-provider-depot", count = 1};
 
 local category =
 {
@@ -364,6 +455,36 @@ local items =
     energy_required = 5,
     result = "supply-small-depot"
   },
+
+  {
+    type = "item",
+    name = "supply-provider-depot",
+    localised_name = {"supply-provider-depot"},
+    icons = supply_provider_depot.icons,
+    icon_size = supply_provider_depot.icon_size,
+    flags = {},
+    subgroup = "transport-drones",
+    order = "e-a-a",
+    stack_size = 10,
+    place_result = "supply-provider-depot"
+  },
+  {
+    type = "recipe",
+    name = "supply-provider-depot",
+    localised_name = {"supply-provider-depot"},
+    icons = supply_provider_depot.icons,
+    icon_size = supply_provider_depot.icon_size,
+    --category = "transport",
+    enabled = false,
+    ingredients =
+    {
+      {"iron-plate", 50},
+      {"iron-gear-wheel", 10},
+      {"iron-stick", 20},
+    },
+    energy_required = 5,
+    result = "supply-provider-depot"
+  },
 }
 
 data:extend(items)
@@ -376,6 +497,8 @@ data:extend
   demand_depot_chest,
   supply_small_depot,
   supply_small_depot_chest,
-  caution_corpse,
+  supply_provider_depot,
+  supply_provider_depot_chest,
+   caution_corpse,
   invisble_corpse
 }

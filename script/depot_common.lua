@@ -44,7 +44,8 @@ add_depot_lib("demand-depot", require("script/depots/demand_depot"))
 add_depot_lib("demand-depot-chest", require("script/depots/demand_depot"))
 add_depot_lib("supply-small-depot", require("script/depots/supply_depot"))
 add_depot_lib("supply-small-depot-chest", require("script/depots/supply_depot"))
-
+add_depot_lib("supply-provider-depot", require("script/depots/supply_depot"))
+add_depot_lib("supply-provider-depot-chest", require("script/depots/supply_depot"))
 
 local match = "transport_drones_add_"
 for name, setting in pairs (settings.startup) do

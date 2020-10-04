@@ -20,7 +20,7 @@ supply_depot.corpse_small_offsets =
 
 function supply_depot.new(entity)
 
-  local smalldepot = entity.name == "supply-small-depot"
+  local smalldepot = entity.name == "supply-small-depot" or entity.name == "supply-provider-depot"
 
   local position = entity.position
   local direction = entity.direction
