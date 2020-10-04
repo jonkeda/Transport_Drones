@@ -27,7 +27,7 @@ function supply_depot.new(entity)
   local force = entity.force
   local surface = entity.surface
   local offset
-  if smalldepot then
+  if entity.name == "supply-small-depot" or entity.name == "supply-provider-depot" then
     offset = supply_depot.corpse_small_offsets[direction]
   else
     offset = supply_depot.corpse_offsets[direction]
@@ -37,10 +37,14 @@ function supply_depot.new(entity)
   entity.rotatable = false
   entity.active = false
   local chest
-  if smalldepot then
-    chest = surface.create_entity{name = "supply-small-depot-chest", position = position, force = force, player = entity.last_user}
-  else
-    chest = surface.create_entity{name = "supply-depot-chest", position = position, force = force, player = entity.last_user}
+  if entity.name == "supply-provider-depot" then
+    chest = surface.create_entity{name = "supply-provider-depot-chest", position = position, force = force, player = entity.last_user}
+  else 
+    if entity.name == "supply-small-depot" then
+      chest = surface.create_entity{name = "supply-small-depot-chest", position = position, force = force, player = entity.last_user}
+    else
+      chest = surface.create_entity{name = "supply-depot-chest", position = position, force = force, player = entity.last_user}
+    end
   end
 
   local corpse_position = {position.x + offset[1], position.y + offset[2]}

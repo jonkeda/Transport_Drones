@@ -356,8 +356,8 @@ local supply_provider_depot_chest = util.copy(data.raw["logistic-container"]["lo
 
 supply_provider_depot_chest.name = "supply-provider-depot-chest";
 supply_provider_depot_chest.localised_name = {"supply-provider-depot"};
-supply_provider_depot_chest.icon = util.path("data/entities/transport_depot/supply-depot-icon.png");
-supply_provider_depot_chest.icon_size = 216;
+supply_provider_depot_chest.icon = supply_provider_depot.icon;
+supply_provider_depot_chest.icon_size = supply_provider_depot.icon_size;
 supply_provider_depot_chest.minable = {result = "supply-provider-depot", mining_time = 1};
 supply_provider_depot_chest.placeable_by = {item = "supply-provider-depot", count = 1};
 
