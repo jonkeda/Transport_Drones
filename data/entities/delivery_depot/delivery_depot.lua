@@ -147,9 +147,6 @@ function drone_depot_icon(tint)
     {
       icon = util.path("data/entities/delivery_depot/logistic-chest/icons/brass-chest.png"),
     },
-    -- {
-    --   icon = util.path("data/entities/delivery_depot/logistic-chest/icons/logistic-chest-port.png"),
-    -- },
     {
       icon = util.path("data/entities/delivery_depot/logistic-chest/logistic-chest-mask.png"),
       tint = tint
