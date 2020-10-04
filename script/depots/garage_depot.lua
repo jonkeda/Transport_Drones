@@ -61,12 +61,15 @@ function garage_depot:remove_fuel(amount)
   self.entity.remove_fluid({name = get_fuel_fluid(), amount = amount})
 end
 
+-- todo
 function garage_depot:check_drone_validity()
   for k, drone in pairs (self.drones) do
     if drone.entity.valid then
       return
     else
-      drone:clear_drone_data()
+      if drone.clear_drone_data then
+        drone:clear_drone_data()
+      end
       self:remove_drone(drone)
     end
   end
@@ -80,7 +83,6 @@ end
 function garage_depot:max_fuel_amount()
   return (self:get_drone_item_count() * fuel_amount_per_drone)
 end
-
 
 local icon_param = {type = "virtual", name = "fuel-signal"}
 function garage_depot:show_fuel_alert(message)
@@ -154,7 +156,7 @@ function garage_depot:get_demand_depot()
                 local supply_count = supply_depot:get_available_item_count(slot.name)
                 -- todo largest amount or heuristic
                 if supply_count > 0 then
-                  return demand_depot, slot, supply_depot
+                  return demand_depot, slot, supply_depot, slot.count - demand_count
                 end  
               end
             end
@@ -171,10 +173,10 @@ function garage_depot:make_request()
 
   while self:can_spawn_drone() do
 
-    local demand_depot, slot, supply_depot = self:get_demand_depot()
+    local demand_depot, slot, supply_depot, demand_count = self:get_demand_depot()
     if not demand_depot then return end
     
-    self:dispatch_drone(supply_depot, demand_depot, slot.count, slot.name)
+    self:dispatch_drone(supply_depot, demand_depot, demand_count, slot.name)
   end
 
 end

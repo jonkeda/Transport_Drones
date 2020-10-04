@@ -871,6 +871,10 @@ transport_drone.on_configuration_changed = function()
 
 end
 
+function transport_drone:on_removed(event)
+  self:suicide()
+end
+
 transport_drone.get_drone = get_drone
 
 transport_drone.get_drone_count = function()

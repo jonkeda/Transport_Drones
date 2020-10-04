@@ -305,7 +305,7 @@ local make_unit = function(k)
       }
     },
     healing_per_tick = 0.1,
-    --minable = {result = name, mining_time = 2},
+    minable = {result = name, mining_time = 2},
     collision_box = {{-0.01, -0.01}, {0.01, 0.01}},
     selection_box = selection_box,
     sticker_box = {shift, shift},

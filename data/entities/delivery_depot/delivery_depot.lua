@@ -157,6 +157,7 @@ end
   
 local demand_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
 demand_depot.name = "demand-depot"
+demand_depot.crafting_categories = {"transport-drone-request"}
 demand_depot.localised_name = {"demand-depot"}
 
 demand_depot.icons = drone_depot_icon({r = 0.1, g = 0.4, b = 0.9, a = 1}); 
@@ -295,7 +296,6 @@ local items =
     localised_name = {"demand-depot"},
     icons = demand_depot_chest.icons,
     icon_size = demand_depot_chest.icon_size,
-    --category = "transport",
     enabled = false,
     ingredients =
     {
@@ -324,7 +324,6 @@ local items =
     localised_name = {"garage-depot"},
     icon = garage_depot.icon,
     icon_size = garage_depot.icon_size,
-    --category = "transport",
     enabled = false,
     ingredients =
     {

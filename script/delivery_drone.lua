@@ -59,8 +59,7 @@ local states =
   delivering_fuel = 4,
 
   going_to_demander = 5,
-  return_to_garage = 6,
-  wait_for_demand = 7
+  return_to_garage = 6
 }
 
 local get_drone_speed = function(force_index)
@@ -562,8 +561,10 @@ function delivery_drone:suicide()
   if self.garage_depot.entity.valid then
     self.garage_depot:remove_drone(self)
   end
-  self.entity.force = "neutral"
-  self.entity.die()
+  if self.entity.valid then
+    self.entity.force = "neutral"
+    self.entity.die()
+  end
 end
 
 function delivery_drone:process_return_to_garage()
@@ -934,6 +935,10 @@ delivery_drone.on_configuration_changed = function()
 
   set_map_settings()
 
+end
+
+function delivery_drone:on_removed(event)
+  self:suicide()
 end
 
 delivery_drone.get_drone = get_drone
