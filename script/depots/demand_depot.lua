@@ -21,6 +21,7 @@ function demand_depot.new(entity)
   entity.rotatable = false
   entity.active = false
   local chest = surface.create_entity{name = "demand-depot-chest", position = position, force = force, player = entity.last_user}
+  chest.active = false
   local corpse_position = {position.x + offset[1], position.y + offset[2]}
   local corpse = surface.create_entity{name = "transport-caution-corpse", position = corpse_position}
   corpse.corpse_expires = false

@@ -119,6 +119,7 @@ garage_depot.animation =
 
 local demand_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
 demand_depot.name = "demand-depot"
+demand_depot.crafting_categories = {"transport-drone-request"}
 demand_depot.localised_name = {"demand-depot"}
 demand_depot.icon = "__base__/graphics/icons/logistic-chest-requester.png"
 demand_depot.icon_size = 64
@@ -244,6 +245,7 @@ end
 local supply_small_depot = util.copy(data.raw["assembling-machine"]["assembling-machine-3"])
 supply_small_depot.name = "supply-small-depot"
 supply_small_depot.localised_name = {"supply-small-depot"}
+supply_small_depot.crafting_categories = {"transport-drone-request"}
 supply_small_depot.icon = "__base__/graphics/icons/logistic-chest-passive-provider.png"
 supply_small_depot.icon_size = 64
 supply_small_depot.icon_mipmaps = 4
